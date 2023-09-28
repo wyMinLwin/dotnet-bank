@@ -20,6 +20,14 @@ namespace BAL.Services.Services
 		public async Task<ServiceReponse<bool>> CreateEmployee (CreateEmployeeDTO request)
 		{
 			ServiceReponse<bool> reponse = new ServiceReponse<bool>();
+			var user = await _unitOfWork.Employee.GetByCondition(employee => employee.EmployeeEmail == request.EmployeeEmail);
+			if (user.FirstOrDefault() != null)
+			{
+                reponse.Data = false;
+                reponse.Message = "Employee Email already exist";
+                reponse.Response = 400;
+                return reponse;
+            }
 			Helper.CreatePasswordHash(request.EmployeePassword, out byte[] passwordHash, out byte[] passwordSalt);
 			Employee employee = _mappper.Map<Employee>(request);
 			employee.EmployeePasswordHash = passwordHash;

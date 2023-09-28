@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using REPOSITORY.Repositories.IRepositories;
+using System.Linq.Expressions;
 namespace REPOSITORY.Repositories.Repositories
 {
 	internal class GenericRepository<T> : IGenericRepository<T> where T : class
@@ -21,7 +22,17 @@ namespace REPOSITORY.Repositories.Repositories
 				throw new Exception();
 			}
 			await _entities.AddAsync(entity);
-		} 
+		}
+
+		public async Task<IEnumerable<T>> GetByCondition(Expression<Func<T,bool>> expression)
+		{
+			var entities = _entities.Where(expression);
+			if (entities == null)
+			{
+				throw new Exception();
+			}
+			return await Task.FromResult(entities.ToList());
+		}
 	}
 }
 

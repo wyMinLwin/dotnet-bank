@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using BAL.Services.IServices;
 using MODEL;
 using MODEL.DTOs.Employee;
+using Microsoft.AspNetCore.Authorization;
 namespace API.Controllers
 {
 	[ApiController]
 	[Route("[controller]/api")]
+	[Authorize]
 	public class EmployeeController: ControllerBase
 	{
 		private readonly IEmployeeService _employeeService;
@@ -19,7 +21,7 @@ namespace API.Controllers
 		public async Task<ActionResult<ServiceReponse<bool>>> CreateEmployee(CreateEmployeeDTO request)
 		{
 			ServiceReponse<bool> response = await _employeeService.CreateEmployee(request);
-			if (response?.Data == null)
+			if (response?.Data == false)
 			{
 				return BadRequest(response);
 			}

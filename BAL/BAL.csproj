@@ -20,4 +20,7 @@
     <ProjectReference Include="..\REPOSITORY\REPOSITORY.csproj" />
     <ProjectReference Include="..\MODEL\MODEL.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.0" />
+  </ItemGroup>
 </Project>
